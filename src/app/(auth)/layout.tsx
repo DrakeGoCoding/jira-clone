@@ -1,31 +1,23 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
-import { Button } from '@/components/ui/button';
+import { getCurrent } from '@/features/auth/actions';
+import { Navbar } from '@/features/auth/components/navbar';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
-  const pathname = usePathname();
+export default async function AuthLayout({ children }: AuthLayoutProps) {
+  const user = await getCurrent();
 
-  const isSignIn = pathname === '/sign-in';
+  if (user) {
+    redirect('/');
+  }
 
   return (
     <main className="min-h-screen bg-neutral-100">
       <div className="mx-auto max-w-screen-2xl p-4">
-        <nav className="flex items-center justify-between">
-          <Image src="/logo.svg" alt="Logo" width={152} height={56} />
-          <Button asChild variant="secondary">
-            <Link href={isSignIn ? '/sign-up' : '/sign-in'}>
-              {isSignIn ? 'Sign Up' : 'Login'}
-            </Link>
-          </Button>
-        </nav>
+        <Navbar />
         <div className="flex flex-col items-center justify-center pt-4 md:pt-14">
           {children}
         </div>

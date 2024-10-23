@@ -1,5 +1,5 @@
 import { SignInCard } from '@/features/auth/components/sign-in-card';
 
-export default function SignInPage() {
+export default async function SignInPage() {
   return <SignInCard />;
 }

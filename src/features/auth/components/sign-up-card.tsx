@@ -29,7 +29,7 @@ import { useRegister } from '../api/use-register';
 import { registerSchema } from '../schema';
 
 export const SignUpCard = () => {
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -74,7 +74,6 @@ export const SignUpCard = () => {
                     <Input
                       type="text"
                       placeholder="Enter your name"
-                      disabled={false}
                       {...field}
                     />
                   </FormControl>
@@ -91,7 +90,6 @@ export const SignUpCard = () => {
                     <Input
                       type="email"
                       placeholder="Enter email address"
-                      disabled={false}
                       {...field}
                     />
                   </FormControl>
@@ -108,7 +106,6 @@ export const SignUpCard = () => {
                     <Input
                       type="password"
                       placeholder="Enter password"
-                      disabled={false}
                       min={8}
                       max={256}
                       {...field}
@@ -118,7 +115,7 @@ export const SignUpCard = () => {
                 </FormItem>
               )}
             />
-            <Button disabled={false} size="lg" className="w-full">
+            <Button disabled={isPending} size="lg" className="w-full">
               Sign Up
             </Button>
           </form>
@@ -132,7 +129,7 @@ export const SignUpCard = () => {
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FcGoogle className="mr-2 size-5" />
           Continue with Google
@@ -141,7 +138,7 @@ export const SignUpCard = () => {
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FaGithub className="mr-2 size-5" />
           Continue with Github
