@@ -11,6 +11,14 @@
   "prettier.configPath": ".prettierrc",
   "cssVariables.lookupFiles": ["*/.css", "*/.scss", "*/.sass", "*/.less"],
   "cSpell.words": [
-    "tailwindcss"
+    "APPWRITE",
+    "clsx",
+    "hono",
+    "hookform",
+    "lucide",
+    "sonner",
+    "tailwindcss",
+    "tanstack",
+    "vaul"
   ]
 }
