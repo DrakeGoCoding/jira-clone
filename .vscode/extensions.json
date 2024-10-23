@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "streetsidesoftware.code-spell-checker",
+    "aaron-bond.better-comments",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "mikestead.dotenv",
+    "naumovs.color-highlight",
+    "formulahendry.auto-rename-tag",
+    "formulahendry.auto-close-tag",
+    "EditorConfig.EditorConfig",
+    "developer2006.svg-gallery",
+    "vunguyentuan.vscode-postcss"
+  ]
+}

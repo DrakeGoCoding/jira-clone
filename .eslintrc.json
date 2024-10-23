@@ -1,3 +1,22 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "ignorePatterns": [
+    "public",
+    "node_modules",
+    "*.d.ts",
+    "*.config.[jt]s",
+    "*.config.c[jt]s",
+    "*.config.m[jt]s"
+  ],
+  "plugins": ["prettier"],
+  "rules": {
+    "@typescript-eslint/no-empty-object-type": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
+    "@typescript-eslint/no-unused-vars": "warn"
+  }
 }

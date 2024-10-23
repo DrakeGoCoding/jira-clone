@@ -1,0 +1,16 @@
+{
+  "editor.fontSize": 12,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "files.trimFinalNewlines": true,
+  "files.associations": {
+    "*.module.css": "postcss"
+  },
+  "prettier.configPath": ".prettierrc",
+  "cssVariables.lookupFiles": ["*/.css", "*/.scss", "*/.sass", "*/.less"],
+  "cSpell.words": [
+    "tailwindcss"
+  ]
+}
