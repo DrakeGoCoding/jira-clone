@@ -20,7 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { useLogin } from '../api/use-login';
-import { loginSchema } from '../schema';
+import { loginSchema } from '../schemas';
 
 export const SignInCard = () => {
   const { mutate, isPending } = useLogin();

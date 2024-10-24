@@ -1,11 +1,12 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export const Navbar = () => {
+import { Button } from '@/components/ui/button';
+
+export const AuthNavbar = () => {
   const pathname = usePathname();
 
   const isSignIn = pathname === '/sign-in';
