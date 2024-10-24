@@ -21,6 +21,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 import { useCreateWorkspace } from '../api/use-create-workspace';
 import { createWorkspaceSchema } from '../schemas';
 
@@ -29,6 +31,8 @@ interface CreateWorkspaceFormProps {
 }
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+  const router = useRouter();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { mutate, isPending } = useCreateWorkspace();
@@ -50,9 +54,9 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
     mutate(
       { form: payload },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }) => {
           form.reset();
-          // TODO: Redirect to new workspace
+          router.push(`/workspaces/${data.$id}`);
         }
       }
     );
@@ -156,6 +160,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                 variant="secondary"
                 onClick={onCancel}
                 disabled={isPending}
+                className={cn(!onCancel && 'invisible')}
               >
                 Cancel
               </Button>
