@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import { AuthNavbar } from '@/components/auth-navbar';
-import { getCurrent } from '@/features/auth/actions';
+import { getCurrent } from '@/features/auth/queries';
 
 interface AuthLayoutProps {
   children: React.ReactNode;

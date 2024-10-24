@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getCurrent } from '@/features/auth/actions';
+import { getCurrent } from '@/features/auth/queries';
 
 interface WorkspaceIdPageProps {
   params: { workspaceId: string };
