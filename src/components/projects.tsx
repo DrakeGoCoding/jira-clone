@@ -7,14 +7,12 @@ import { RiAddCircleFill } from 'react-icons/ri';
 import { useGetProjects } from '@/features/projects/api/use-get-projects';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
 import { useCreateProjectModal } from '@/features/projects/hooks/use-create-project-modal';
-import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 
 export const Projects = () => {
   const pathname = usePathname();
   const workspaceId = useWorkspaceId();
-  const projectId = useProjectId();
   const { data } = useGetProjects({ workspaceId });
   const { open } = useCreateProjectModal();
 

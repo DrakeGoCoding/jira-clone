@@ -14,3 +14,13 @@ export const createProjectSchema = z.object({
     .optional(),
   workspaceId: z.string()
 });
+
+export const updateProjectSchema = z.object({
+  name: z.string().trim().min(1, 'Name must be at least 1 character').optional(),
+  image: z
+    .union([
+      z.instanceof(File),
+      z.string().transform((val) => (val === '' ? undefined : val))
+    ])
+    .optional()
+});
