@@ -21,33 +21,36 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 
-import { useCreateWorkspace } from '../api/use-create-workspace';
-import { createWorkspaceSchema } from '../schemas';
+import { useCreateProject } from '../api/use-create-project';
+import { createProjectSchema } from '../schemas';
 
-interface CreateWorkspaceFormProps {
+interface CreateProjectFormProps {
   onCancel?: () => void;
 }
 
-export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
   const router = useRouter();
+  const workspaceId = useWorkspaceId();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { mutate, isPending } = useCreateWorkspace();
+  const { mutate, isPending } = useCreateProject();
 
-  const form = useForm<z.infer<typeof createWorkspaceSchema>>({
-    resolver: zodResolver(createWorkspaceSchema),
+  const form = useForm<z.infer<typeof createProjectSchema>>({
+    resolver: zodResolver(createProjectSchema.omit({ workspaceId: true })),
     defaultValues: {
       name: '',
       image: ''
     }
   });
 
-  const onSubmit = async (values: z.infer<typeof createWorkspaceSchema>) => {
+  const onSubmit = async (values: z.infer<typeof createProjectSchema>) => {
     const payload = {
       ...values,
+      workspaceId,
       image: values.image instanceof File ? values.image : ''
     };
 
@@ -56,7 +59,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
       {
         onSuccess: ({ data }) => {
           form.reset();
-          router.push(`/workspaces/${data.$id}`);
+          // TODO: redirect to project page
         }
       }
     );
@@ -74,7 +77,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
     <Card className="h-full w-full border-none shadow-none">
       <CardHeader className="flex p-7">
         <CardTitle className="text-xl font-bold">
-          Create a new workspace
+          Create a new project
         </CardTitle>
       </CardHeader>
       <div className="px-7">
@@ -89,9 +92,9 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Workspace Name</FormLabel>
+                    <FormLabel>Project Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter workspace name" {...field} />
+                      <Input placeholder="Enter project name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -111,7 +114,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                                 ? URL.createObjectURL(field.value)
                                 : field.value
                             }
-                            alt="Workspace Image"
+                            alt="Project Image"
                             className="object-cover"
                             fill
                           />
@@ -124,7 +127,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                         </Avatar>
                       )}
                       <div className="flex flex-col">
-                        <p className="text-sm">Workspace Icon</p>
+                        <p className="text-sm">Project Icon</p>
                         <p className="text-sm text-muted-foreground">
                           JPG, PNG, SVG, JPEG, max 1MB
                         </p>
@@ -188,7 +191,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                 variant="primary"
                 disabled={isPending}
               >
-                Create Workspace
+                Create Project
               </Button>
             </div>
           </form>

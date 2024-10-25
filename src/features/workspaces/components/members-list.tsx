@@ -60,7 +60,7 @@ export const MembersList = () => {
       <CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-7">
         <Button variant="secondary" size="sm" asChild>
           <Link href={`/workspaces/${workspaceId}`}>
-            <ArrowLeftIcon className="mr-2 size-4" />
+            <ArrowLeftIcon className="size-4" />
             Back
           </Link>
         </Button>

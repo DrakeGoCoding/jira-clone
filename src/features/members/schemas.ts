@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { MemberRole } from './types';
 
-export const getMemberSchema = z.object({
+export const getMembersSchema = z.object({
   workspaceId: z.string()
 });
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { RiAddCircleFill } from 'react-icons/ri';
 
@@ -18,7 +19,7 @@ import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
-  const { data } = useGetWorkspaces();
+  const { data, isPending } = useGetWorkspaces();
   const { open } = useCreateWorkspaceModal();
 
   const onSelect = (id: string) => {
@@ -34,24 +35,30 @@ export const WorkspaceSwitcher = () => {
           onClick={open}
         />
       </div>
-      <Select value={workspaceId} onValueChange={onSelect}>
-        <SelectTrigger className="w-full bg-neutral-200 p-1 font-medium ring-offset-transparent focus:ring-transparent">
-          <SelectValue placeholder="No workspace selected" />
-        </SelectTrigger>
-        <SelectContent>
-          {data?.documents.map((workspace) => (
-            <SelectItem key={workspace.$id} value={workspace.$id}>
-              <div className="flex items-center justify-start gap-3 font-medium">
-                <WorkspaceAvatar
-                  name={workspace.name}
-                  image={workspace.imageUrl}
-                />
-                <span className="truncate">{workspace.name}</span>
-              </div>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {isPending ? (
+        <div className="py-2">
+          <Loader className="size-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
+        <Select value={workspaceId} onValueChange={onSelect}>
+          <SelectTrigger className="w-full bg-neutral-200 p-1 font-medium ring-offset-transparent focus:ring-transparent">
+            <SelectValue placeholder="No workspace selected" />
+          </SelectTrigger>
+          <SelectContent>
+            {data?.documents.map((workspace) => (
+              <SelectItem key={workspace.$id} value={workspace.$id}>
+                <div className="flex items-center justify-start gap-3 font-medium">
+                  <WorkspaceAvatar
+                    name={workspace.name}
+                    image={workspace.imageUrl}
+                  />
+                  <span className="truncate">{workspace.name}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
     </div>
   );
 };

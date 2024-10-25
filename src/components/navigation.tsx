@@ -44,8 +44,6 @@ export const Navigation = () => {
   const pathname = usePathname();
   const workspaceId = useWorkspaceId();
 
-  if (!workspaceId) return null;
-
   return (
     <ul className="flex flex-col">
       {routes.map((item) => {

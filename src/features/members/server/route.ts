@@ -6,7 +6,7 @@ import { DATABASE_ID, MEMBERS_ID } from '@/config';
 import { createAdminClient } from '@/lib/appwrite';
 import { sessionMiddleware } from '@/lib/session-middleware';
 
-import { getMemberSchema, updateMemberSchema } from '../schemas';
+import { getMembersSchema, updateMemberSchema } from '../schemas';
 import { MemberRole } from '../types';
 import { getMember } from '../utils';
 
@@ -14,7 +14,7 @@ const app = new Hono()
   .get(
     '/',
     sessionMiddleware,
-    zValidator('query', getMemberSchema),
+    zValidator('query', getMembersSchema),
     async (c) => {
       const { users } = await createAdminClient();
       const databases = c.get('databases');

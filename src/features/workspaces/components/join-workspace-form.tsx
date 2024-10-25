@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,6 @@ import {
   CardTitle
 } from '@/components/ui/card';
 
-import { useRouter } from 'next/navigation';
 import { useJoinWorkspace } from '../api/use-join-workspace';
 import { useInviteCode } from '../hooks/use-invite-code';
 import { useWorkspaceId } from '../hooks/use-workspace-id';
