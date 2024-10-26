@@ -26,7 +26,6 @@ export const TaskActions = ({ id, projectId, children }: TaskActionsProps) => {
   const { open } = useEditTaskModal();
 
   const { mutate, isPending } = useDeleteTask();
-
   const [ConfirmDialog, confirm] = useConfirm(
     'Delete task',
     'This action cannot be undone. Are you sure you want to delete this task?',
@@ -44,9 +43,9 @@ export const TaskActions = ({ id, projectId, children }: TaskActionsProps) => {
     router.push(`/workspaces/${workspaceId}/tasks/${id}`);
   };
 
-  // const onOpenProject = () => {
-  //   router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
-  // };
+  const onOpenProject = () => {
+    router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
+  };
 
   return (
     <div className="flex justify-end">
@@ -60,13 +59,13 @@ export const TaskActions = ({ id, projectId, children }: TaskActionsProps) => {
             <ExternalLinkIcon className="mr-2 size-4 stroke-2" />
             Task Details
           </DropdownMenuItem>
-          {/* <DropdownMenuItem
+          <DropdownMenuItem
             onClick={onOpenProject}
             className="p-[10px] font-medium"
           >
             <ExternalLinkIcon className="mr-2 size-4 stroke-2" />
             Open Project
-          </DropdownMenuItem> */}
+          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => open(id)}
             className="p-[10px] font-medium"

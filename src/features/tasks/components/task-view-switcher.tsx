@@ -7,9 +7,9 @@ import { useCallback } from 'react';
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
+import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useBulkUpdateTasks } from '../api/use-bulk-update-tasks';
 import { useGetTasks } from '../api/use-get-tasks';
 import { useCreateTaskModal } from '../hooks/use-create-task-modal';
@@ -21,20 +21,26 @@ import { DataFilters } from './data-filters';
 import { DataKanban } from './data-kanban';
 import { DataTable } from './data-table';
 
-export const TaskViewSwitcher = () => {
-  const [{ status, assigneeId, dueDate, search }, setFilters] =
-    useTaskFilters();
+interface TaskViewSwitcherProps {
+  hideProjectFilter?: boolean;
+}
+
+export const TaskViewSwitcher = ({
+  hideProjectFilter
+}: TaskViewSwitcherProps) => {
+  const [{ status, assigneeId, dueDate, projectId, search }] = useTaskFilters();
   const [view, setView] = useQueryState('task-view', {
     defaultValue: 'table'
   });
 
   const workspaceId = useWorkspaceId();
-  const projectId = useProjectId();
+  const projectIdParam = useProjectId();
+
   const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
     workspaceId,
     status,
     assigneeId,
-    projectId,
+    projectId: hideProjectFilter ? projectIdParam : projectId,
     dueDate,
     search
   });
@@ -78,7 +84,7 @@ export const TaskViewSwitcher = () => {
           </Button>
         </div>
         <DottedSeparator className="my-4" />
-        <DataFilters />
+        <DataFilters hideProjectFilter={hideProjectFilter} />
         <DottedSeparator className="my-4" />
         {isLoadingTasks ? (
           <div className="flex h-[200px] w-full flex-col items-center justify-center rounded-lg border">

@@ -1,4 +1,4 @@
-import { ListChecks, UserIcon } from 'lucide-react';
+import { FolderIcon, ListChecks, UserIcon } from 'lucide-react';
 import { useMemo } from 'react';
 
 import {
@@ -13,6 +13,7 @@ import { useGetMembers } from '@/features/members/api/use-get-members';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
 import { DatePicker } from '@/components/date-picker';
+import { useGetProjects } from '@/features/projects/api/use-get-projects';
 import { useTaskFilters } from '../hooks/use-task-filters';
 import { TaskStatus } from '../types';
 
@@ -23,11 +24,23 @@ interface DataFiltersProps {
 export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
   const workspaceId = useWorkspaceId();
 
+  const { data: projects, isLoading: isLoadingProjects } = useGetProjects({
+    workspaceId
+  });
   const { data: members, isLoading: isLoadingMembers } = useGetMembers({
     workspaceId
   });
 
-  const isLoading = isLoadingMembers;
+  const isLoading = isLoadingProjects || isLoadingMembers;
+
+  const projectOptions = useMemo(
+    () =>
+      projects?.documents.map((project) => ({
+        label: project.name,
+        value: project.$id
+      })) || [],
+    [projects?.documents]
+  );
 
   const memberOptions = useMemo(
     () =>
@@ -38,7 +51,8 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
     [members?.documents]
   );
 
-  const [{ status, assigneeId, dueDate }, setFilters] = useTaskFilters();
+  const [{ status, assigneeId, projectId, dueDate }, setFilters] =
+    useTaskFilters();
 
   const onStatusChange = (value: string) => {
     setFilters({ status: value === 'all' ? null : (value as TaskStatus) });
@@ -46,6 +60,10 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
 
   const onAssigneeChange = (value: string) => {
     setFilters({ assigneeId: value === 'all' ? null : value });
+  };
+
+  const onProjectChange = (value: string) => {
+    setFilters({ projectId: value === 'all' ? null : value });
   };
 
   if (isLoading) {
@@ -91,26 +109,28 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
           ))}
         </SelectContent>
       </Select>
-      {/* <Select
-        defaultValue={projectId ?? undefined}
-        onValueChange={onProjectChange}
-      >
-        <SelectTrigger className="h-8 w-full lg:w-auto">
-          <div className="flex items-center pr-2">
-            <FolderIcon className="mr-2 size-4" />
-            <SelectValue placeholder="All projects" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All projects</SelectItem>
-          <SelectSeparator />
-          {projectOptions.map((project) => (
-            <SelectItem key={project.value} value={project.value}>
-              {project.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select> */}
+      {!hideProjectFilter && (
+        <Select
+          defaultValue={projectId ?? undefined}
+          onValueChange={onProjectChange}
+        >
+          <SelectTrigger className="h-8 w-full lg:w-auto">
+            <div className="flex items-center pr-2">
+              <FolderIcon className="mr-2 size-4" />
+              <SelectValue placeholder="All projects" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All projects</SelectItem>
+            <SelectSeparator />
+            {projectOptions.map((project) => (
+              <SelectItem key={project.value} value={project.value}>
+                {project.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
       <DatePicker
         placeholder="Due date"
         className="h-8 w-full lg:w-auto"
