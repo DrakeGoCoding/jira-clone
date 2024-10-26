@@ -101,19 +101,12 @@ export const EditWorkspaceForm = ({
       image: values.image instanceof File ? values.image : ''
     };
 
-    updateWorkspace(
-      {
-        form: payload,
-        param: {
-          workspaceId: initialValues.$id
-        }
-      },
-      {
-        onSuccess: () => {
-          form.reset();
-        }
+    updateWorkspace({
+      form: payload,
+      param: {
+        workspaceId: initialValues.$id
       }
-    );
+    });
   };
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

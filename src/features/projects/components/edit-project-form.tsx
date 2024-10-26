@@ -81,19 +81,12 @@ export const EditProjectForm = ({
       image: values.image instanceof File ? values.image : ''
     };
 
-    updateProject(
-      {
-        form: payload,
-        param: {
-          projectId: initialValues.$id
-        }
-      },
-      {
-        onSuccess: () => {
-          form.reset();
-        }
+    updateProject({
+      form: payload,
+      param: {
+        projectId: initialValues.$id
       }
-    );
+    });
   };
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
