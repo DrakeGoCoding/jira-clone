@@ -2,18 +2,22 @@
 
 import { Loader, PlusIcon } from 'lucide-react';
 import { useQueryState } from 'nuqs';
+import { useCallback } from 'react';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
-import { useProjectId } from '@/features/projects/hooks/use-project-id';
+import { useBulkUpdateTasks } from '../api/use-bulk-update-tasks';
 import { useGetTasks } from '../api/use-get-tasks';
 import { useCreateTaskModal } from '../hooks/use-create-task-modal';
 import { useTaskFilters } from '../hooks/use-task-filters';
+import { TaskStatus } from '../types';
 import { columns } from './columns';
 import { DataFilters } from './data-filters';
+import { DataKanban } from './data-kanban';
 import { DataTable } from './data-table';
 
 export const TaskViewSwitcher = () => {
@@ -34,7 +38,20 @@ export const TaskViewSwitcher = () => {
     search
   });
 
+  const { mutate: bulkUpdate } = useBulkUpdateTasks();
+
+  const onKanbanChange = useCallback(
+    (tasks: Array<{ $id: string; status: TaskStatus; position: number }>) => {
+      bulkUpdate({
+        json: { tasks }
+      });
+    },
+    [bulkUpdate]
+  );
+
   const { open } = useCreateTaskModal();
+
+  const listTask = tasks?.documents || [];
 
   return (
     <Tabs
@@ -69,10 +86,10 @@ export const TaskViewSwitcher = () => {
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              <DataTable columns={columns} data={tasks?.documents ?? []} />
+              <DataTable columns={columns} data={listTask} />
             </TabsContent>
             <TabsContent value="kanban" className="mt-0">
-              Data kanban
+              <DataKanban data={listTask} onChange={onKanbanChange} />
             </TabsContent>
             <TabsContent value="calendar" className="mt-0">
               Data calendar

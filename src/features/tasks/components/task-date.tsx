@@ -1,12 +1,17 @@
 import { cn } from '@/lib/utils';
-import { differenceInDays, format } from 'date-fns';
+import { differenceInDays, format as formatDate } from 'date-fns';
 
 interface TaskDateProps {
   value: string;
   className?: string;
+  format?: string;
 }
 
-export const TaskDate = ({ value, className }: TaskDateProps) => {
+export const TaskDate = ({
+  value,
+  className,
+  format = 'PPP'
+}: TaskDateProps) => {
   const today = new Date();
   const endDate = new Date(value);
   const diffInDays = differenceInDays(endDate, today);
@@ -21,8 +26,10 @@ export const TaskDate = ({ value, className }: TaskDateProps) => {
   }
 
   return (
-    <div className={textColor}>
-      <span className={cn('truncate', className)}>{format(value, 'PPP')}</span>
+    <div className={cn('inline-flex items-center', textColor)}>
+      <span className={cn('truncate', className)}>
+        {formatDate(value, format)}
+      </span>
     </div>
   );
 };
