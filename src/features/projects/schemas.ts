@@ -16,7 +16,11 @@ export const createProjectSchema = z.object({
 });
 
 export const updateProjectSchema = z.object({
-  name: z.string().trim().min(1, 'Name must be at least 1 character').optional(),
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Name must be at least 1 character')
+    .optional(),
   image: z
     .union([
       z.instanceof(File),

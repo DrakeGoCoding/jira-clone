@@ -12,7 +12,9 @@ import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useGetTasks } from '../api/use-get-tasks';
 import { useCreateTaskModal } from '../hooks/use-create-task-modal';
 import { useTaskFilters } from '../hooks/use-task-filters';
+import { columns } from './columns';
 import { DataFilters } from './data-filters';
+import { DataTable } from './data-table';
 
 export const TaskViewSwitcher = () => {
   const [{ status, assigneeId, dueDate, search }, setFilters] =
@@ -67,7 +69,7 @@ export const TaskViewSwitcher = () => {
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              {JSON.stringify(tasks, null, 2)}
+              <DataTable columns={columns} data={tasks?.documents ?? []} />
             </TabsContent>
             <TabsContent value="kanban" className="mt-0">
               Data kanban
