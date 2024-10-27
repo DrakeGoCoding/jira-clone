@@ -356,7 +356,13 @@ const app = new Hono()
 
     await databases.deleteDocument(DATABASE_ID, TASKS_ID, taskId);
 
-    return c.json({ data: { $id: taskId } });
+    return c.json({
+      data: {
+        $id: taskId,
+        workspaceId: task.workspaceId,
+        projectId: task.projectId
+      }
+    });
   });
 
 export default app;
