@@ -72,15 +72,15 @@ export const MembersList = () => {
       <CardContent className="p-7">
         {data?.documents.map((member, index) => (
           <Fragment key={member.$id}>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <MemberAvatar
                 name={member.name}
                 className="size-10"
                 fallbackClassName="text-lg"
               />
-              <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-medium">{member.name}</p>
-                <p className="text-xs text-muted-foreground">{member.email}</p>
+              <div className="flex flex-col">
+                <p className="text-md font-medium">{member.name}</p>
+                <p className="text-sm text-muted-foreground">{member.email}</p>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

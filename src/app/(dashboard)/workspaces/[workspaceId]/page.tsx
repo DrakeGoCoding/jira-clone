@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import { getCurrent } from '@/features/auth/queries';
+import { WorkspaceIdClient } from './client';
 
 interface WorkspaceIdPageProps {
   params: { workspaceId: string };
@@ -15,5 +16,5 @@ export default async function WorkspaceIdPage({
     redirect('/sign-in');
   }
 
-  return <div>WorkspaceIdPage {params.workspaceId}</div>;
+  return <WorkspaceIdClient />;
 }
