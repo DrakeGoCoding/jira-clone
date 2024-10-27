@@ -69,8 +69,7 @@ export const CreateTaskForm = ({
   const onSubmit = async (values: z.infer<typeof createTaskSchema>) => {
     const payload = {
       ...values,
-      workspaceId,
-      projectId
+      workspaceId
     };
 
     mutate(
