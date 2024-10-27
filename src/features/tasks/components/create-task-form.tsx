@@ -26,10 +26,10 @@ import {
 } from '@/components/ui/select';
 import { MemberAvatar } from '@/features/members/components/member-avatar';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
+import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 
-import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useCreateTask } from '../api/use-create-task';
 import { createTaskSchema } from '../schemas';
 import { TaskStatus } from '../types';

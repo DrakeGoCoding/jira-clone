@@ -232,6 +232,61 @@ const app = new Hono()
       return c.json({ data: task });
     }
   )
+  .post(
+    '/bulk-update',
+    sessionMiddleware,
+    zValidator('json', updateBulkSchema),
+    async (c) => {
+      const user = c.get('user');
+      const databases = c.get('databases');
+      const { tasks } = c.req.valid('json');
+
+      const tasksToUpdate = await databases.listDocuments(
+        DATABASE_ID,
+        TASKS_ID,
+        [
+          Query.contains(
+            '$id',
+            tasks.map((task) => task.$id)
+          )
+        ]
+      );
+
+      const workspaceIds = new Set(
+        tasksToUpdate.documents.map((task) => task.workspaceId)
+      );
+      if (workspaceIds.size !== 1) {
+        return c.json(
+          { error: 'All tasks must be in the same workspace' },
+          400
+        );
+      }
+
+      const workspaceId = workspaceIds.values().next().value;
+
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id
+      });
+
+      if (!member) {
+        return c.json({ error: 'Unauthorized' }, 401);
+      }
+
+      const updatedTasks = await Promise.all(
+        tasks.map((task) => {
+          const { $id, status, position } = task;
+          return databases.updateDocument(DATABASE_ID, TASKS_ID, $id, {
+            status,
+            position
+          });
+        })
+      );
+
+      return c.json({ data: updatedTasks });
+    }
+  )
   .patch(
     '/:taskId',
     sessionMiddleware,
@@ -302,61 +357,6 @@ const app = new Hono()
     await databases.deleteDocument(DATABASE_ID, TASKS_ID, taskId);
 
     return c.json({ data: { $id: taskId } });
-  })
-  .post(
-    '/bulk-update',
-    sessionMiddleware,
-    zValidator('json', updateBulkSchema),
-    async (c) => {
-      const user = c.get('user');
-      const databases = c.get('databases');
-      const { tasks } = c.req.valid('json');
-
-      const tasksToUpdate = await databases.listDocuments(
-        DATABASE_ID,
-        TASKS_ID,
-        [
-          Query.contains(
-            '$id',
-            tasks.map((task) => task.$id)
-          )
-        ]
-      );
-
-      const workspaceIds = new Set(
-        tasksToUpdate.documents.map((task) => task.workspaceId)
-      );
-      if (workspaceIds.size !== 1) {
-        return c.json(
-          { error: 'All tasks must be in the same workspace' },
-          400
-        );
-      }
-
-      const workspaceId = workspaceIds.values().next().value;
-
-      const member = await getMember({
-        databases,
-        workspaceId,
-        userId: user.$id
-      });
-
-      if (!member) {
-        return c.json({ error: 'Unauthorized' }, 401);
-      }
-
-      const updatedTasks = await Promise.all(
-        tasks.map((task) => {
-          const { $id, status, position } = task;
-          return databases.updateDocument(DATABASE_ID, TASKS_ID, $id, {
-            status,
-            position
-          });
-        })
-      );
-
-      return c.json({ data: updatedTasks });
-    }
-  );
+  });
 
 export default app;

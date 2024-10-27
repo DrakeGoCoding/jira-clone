@@ -26,10 +26,8 @@ import {
 } from '@/components/ui/select';
 import { MemberAvatar } from '@/features/members/components/member-avatar';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
-import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 
-import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useUpdateTask } from '../api/use-update-task';
 import { createTaskSchema } from '../schemas';
 import { Task, TaskStatus } from '../types';
@@ -54,9 +52,6 @@ export const EditTaskForm = ({
   memberOptions = [],
   initialValues
 }: EditTaskFormProps) => {
-  const workspaceId = useWorkspaceId();
-  const projectId = useProjectId();
-
   const { mutate, isPending } = useUpdateTask();
 
   const form = useForm<z.infer<typeof createTaskSchema>>({

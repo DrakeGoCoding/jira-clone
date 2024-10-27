@@ -1,6 +1,7 @@
 import { FolderIcon, ListChecks, UserIcon } from 'lucide-react';
 import { useMemo } from 'react';
 
+import { DatePicker } from '@/components/date-picker';
 import {
   Select,
   SelectContent,
@@ -10,10 +11,9 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { useGetMembers } from '@/features/members/api/use-get-members';
+import { useGetProjects } from '@/features/projects/api/use-get-projects';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
-import { DatePicker } from '@/components/date-picker';
-import { useGetProjects } from '@/features/projects/api/use-get-projects';
 import { useTaskFilters } from '../hooks/use-task-filters';
 import { TaskStatus } from '../types';
 

@@ -21,9 +21,9 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useConfirm } from '@/hooks/use-confirm';
 import { cn } from '@/lib/utils';
 
-import { useConfirm } from '@/hooks/use-confirm';
 import { useDeleteProject } from '../api/use-delete-project';
 import { useUpdateProject } from '../api/use-update-project';
 import { updateProjectSchema } from '../schemas';

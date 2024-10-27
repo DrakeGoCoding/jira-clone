@@ -7,9 +7,9 @@ import { useCallback } from 'react';
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
-import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useBulkUpdateTasks } from '../api/use-bulk-update-tasks';
 import { useGetTasks } from '../api/use-get-tasks';
 import { useCreateTaskModal } from '../hooks/use-create-task-modal';
