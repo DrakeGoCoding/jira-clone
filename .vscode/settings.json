@@ -6,6 +6,7 @@
   },
   "files.trimFinalNewlines": true,
   "files.associations": {
+    "*.css": "tailwindcss",
     "*.module.css": "postcss"
   },
   "prettier.configPath": ".prettierrc",
